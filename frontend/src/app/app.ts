@@ -1,3 +1,4 @@
+//temporary testing 
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { RecordListComponent } from './components/record-list/record-list';
