@@ -2,6 +2,8 @@ import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
+const UNUSED_API_TIMEOUT = 5000; // lint-fixture: unused variable for scanner validation
+
 export interface CeRecord {
   id: string;
   title: string;

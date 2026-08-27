@@ -1,0 +1,15 @@
+{
+  "name": "ce-platform-stack",
+  "private": true,
+  "scripts": {
+    "lint": "eslint .",
+    "lint:report": "eslint . -f json -o eslint-report.json"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "eslint": "^9.17.0",
+    "globals": "^15.14.0",
+    "typescript": "~5.9.2",
+    "typescript-eslint": "^8.18.2"
+  }
+}

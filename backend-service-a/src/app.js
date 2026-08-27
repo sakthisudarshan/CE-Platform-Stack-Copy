@@ -10,7 +10,7 @@ function createApp() {
   app.get('/health', (req, res) => res.json({ status: 'ok', service: 'backend-service-a' }));
   app.use('/api/records', recordsRouter);
 
-  app.use((err, req, res, next) => {
+  app.use((err, req, res, _next) => {
     console.error('[service-a]', err);
     res.status(500).json({ error: 'internal server error' });
   });

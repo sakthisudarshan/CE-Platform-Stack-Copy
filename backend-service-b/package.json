@@ -11,7 +11,8 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "node --watch src/index.js",
-    "check": "node -c src/index.js"
+    "check": "node -c src/index.js",
+    "lint": "cd .. && npm run lint"
   },
   "dependencies": {
     "@aws-sdk/client-ses": "^3.677.0",

@@ -1,0 +1,37 @@
+name: Lint
+
+on:
+  push:
+    branches:
+      - 'CE-003(ESBUILD_NPM)'
+  pull_request:
+    branches:
+      - 'CE-003(ESBUILD_NPM)'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install lint dependencies
+        run: npm ci
+
+      - name: Run ESLint and generate report
+        run: |
+          npm run lint || true
+          npm run lint:report || true
+
+      - name: Upload ESLint report
+        uses: actions/upload-artifact@v4
+        with:
+          name: eslint-report
+          path: eslint-report.json
+          if-no-files-found: error

@@ -3,6 +3,7 @@ const { createApp } = require('./app');
 const { startGrpcServer } = require('./grpc/server');
 
 const HTTP_PORT = process.env.PORT || 3001;
+const UNUSED_DEBUG_PORT = 3999; // lint-fixture: unused variable for scanner validation
 
 async function main() {
   await connectDb();

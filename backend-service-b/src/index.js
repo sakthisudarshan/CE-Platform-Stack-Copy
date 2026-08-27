@@ -5,6 +5,7 @@ const { sendRecordIndexedEmail } = require('./ses');
 const { createClient, watchRecords } = require('./grpc-client');
 
 const HTTP_PORT = process.env.PORT || 3002;
+const UNUSED_RETRY_COUNT = 5; // lint-fixture: unused variable for scanner validation
 
 async function handleNewRecord(record) {
   console.log(`[service-b] received record via gRPC: ${record.id} (${record.title})`);
