@@ -1,20 +1,10 @@
-const path = require('path');
 const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
 const Record = require('../models/record.model');
 const { recordEvents } = require('../events');
+const { loadProto, PROTO_PATH } = require('../../../shared/grpc/proto');
 
-const PROTO_PATH = path.resolve(__dirname, '../../../shared/proto/record.proto');
-
-const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
-  keepCase: false,
-  longs: String,
-  enums: String,
-  defaults: true,
-  oneofs: true,
-});
-
-const proto = grpc.loadPackageDefinition(packageDefinition).ceplatform;
+const proto = loadProto(grpc, protoLoader);
 
 async function getRecord(call, callback) {
   try {
@@ -28,6 +18,10 @@ async function getRecord(call, callback) {
   }
 }
 
+function unsubscribeRecordCreated(onCreated) {
+  recordEvents.off('record:created', onCreated);
+}
+
 function watchRecords(call) {
   console.log('[service-a][grpc] client subscribed to WatchRecords');
 
@@ -37,10 +31,12 @@ function watchRecords(call) {
 
   recordEvents.on('record:created', onCreated);
 
-  call.on('cancelled', () => recordEvents.off('record:created', onCreated));
-  call.on('error', () => recordEvents.off('record:created', onCreated));
+  const cleanup = () => unsubscribeRecordCreated(onCreated);
+
+  call.on('cancelled', cleanup);
+  call.on('error', cleanup);
   call.on('end', () => {
-    recordEvents.off('record:created', onCreated);
+    cleanup();
     call.end();
   });
 }
